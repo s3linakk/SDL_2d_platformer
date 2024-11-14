@@ -14,11 +14,14 @@ public:
     ~Player();
 
     void update(const SDL_Rect& platformRect);
-    void render(SDL_Renderer* renderer);
+    void render(SDL_Renderer* renderer, const SDL_Rect& cameraRect);
 
     SDL_Rect getRect() const { return rect; } // Добавляем этот метод
 
-    bool checkCollision(const SDL_Rect& a, const SDL_Rect& b);
+    // Методы для коллизий
+    bool checkCollision(const SDL_Rect& a, const SDL_Rect& b);       // Проверка коллизий
+    void handlePlatformCollision(const SDL_Rect& platformRect);      // Обработка коллизий с платформой
+    void setOnGround(bool onGround);
 
 private:
     SDL_Texture* idleTexture;

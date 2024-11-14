@@ -1,2 +1,6 @@
-﻿  Player.cpp
+﻿  Game.cpp
+  main.cpp
+  MainMenu.cpp
+C:\Users\Константин\source\repos\SDLwindowProject\SDLwindowProject\MainMenu.cpp(59,46): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+  Создание кода...
   SDLwindowProject.vcxproj -> C:\Users\Константин\source\repos\SDLwindowProject\x64\Debug\SDLwindowProject.exe

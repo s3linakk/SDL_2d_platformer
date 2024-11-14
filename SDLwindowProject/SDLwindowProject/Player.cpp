@@ -37,21 +37,34 @@ bool Player::checkCollision(const SDL_Rect& a, const SDL_Rect& b) {
         (a.y + a.h > b.y) && (a.y < b.y + b.h);
 }
 
+void Player::handlePlatformCollision(const SDL_Rect& platformRect) {
+    // Устанавливаем игрока на верхнюю грань платформы
+    rect.y = platformRect.y - rect.h;
+    velY = 0;  // Останавливаем падение
+    onGround = true;
+}
+
+void Player::setOnGround(bool onGround) {
+    this->onGround = onGround;
+}
+
 void Player::update(const SDL_Rect& platformRect) {
     const Uint8* keystate = SDL_GetKeyboardState(nullptr);
     velX = 0;
-    velY += 1;
+    if (!onGround) {
+        velY += 1; // Подключите гравитацию только, если не на земле
+    }
 
     // Определяем начальное состояние
     PlayerState previousState = state;
     state = PlayerState::IDLE;
 
-    if (keystate[SDL_SCANCODE_LEFT]) {
+    if (keystate[SDL_SCANCODE_A]) {
         velX = -5;
         direction = -1;
         state = PlayerState::WALK;
     }
-    else if (keystate[SDL_SCANCODE_RIGHT]) {
+    else if (keystate[SDL_SCANCODE_D]) {
         velX = 5;
         direction = 1;
         state = PlayerState::WALK;
@@ -67,7 +80,7 @@ void Player::update(const SDL_Rect& platformRect) {
         frame = (SDL_GetTicks() / 100) % 8;  // 8 кадров для WALK
     }
     else if (state == PlayerState::IDLE) {
-        frame = (SDL_GetTicks() / 200) % 17;  // 4 кадра для IDLE, измените при необходимости
+        frame = (SDL_GetTicks() / 200) % 17;  // 17 кадра для IDLE, измените при необходимости
     }
     else if (state == PlayerState::JUMP) {
         frame = 0; // Один кадр для прыжка
@@ -83,20 +96,13 @@ void Player::update(const SDL_Rect& platformRect) {
     rect.y += velY;
 
 
-    // Проверка коллизии с платформой
-    if (checkCollision(rect, platformRect)) {
-        // Если произошла коллизия, игрок находится на платформе
-        rect.y = platformRect.y - rect.h; // Устанавливаем игрока на платформу
-        velY = 0; // Останавливаем падение
-        onGround = true;
-    }
-    else {
-        onGround = false; // Если нет коллизии, игрок снова падает
-    }
 }
 
 
-void Player::render(SDL_Renderer* renderer) {
+
+void Player::render(SDL_Renderer* renderer, const SDL_Rect& cameraRect) {
+    SDL_Rect renderRect = { rect.x - cameraRect.x, rect.y - cameraRect.y, rect.w, rect.h };
+
     SDL_Rect srcRect;
     int frameWidth;
     int frameHeight;
@@ -132,7 +138,7 @@ void Player::render(SDL_Renderer* renderer) {
 
     // Коррекция destRect по вертикали при разных размерах кадров
     int yOffset = rect.h - frameHeight;
-    SDL_Rect destRect = { rect.x, rect.y + yOffset, frameWidth, frameHeight };
+    SDL_Rect destRect = { rect.x - cameraRect.x, rect.y - cameraRect.y + yOffset, frameWidth, frameHeight };
 
     SDL_RenderCopyEx(renderer, currentTexture, &srcRect, &destRect, 0, nullptr,
         direction == 1 ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL);

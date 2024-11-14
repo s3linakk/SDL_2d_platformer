@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)assets;C:\SDL2_image-2.8.2\include;C:\SDL\SDL2-2.30.8\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\SDL2_image-2.8.2\lib\x64;C:\SDL\SDL2-2.30.8\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\SDL2_ttf\include;$(SolutionDir)assets;C:\SDL2_image-2.8.2\include;C:\SDL\SDL2-2.30.8\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\SDL2_ttf\lib\x64;C:\SDL2_image-2.8.2\lib\x64;C:\SDL\SDL2-2.30.8\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -112,7 +112,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -132,25 +132,37 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BackgroundAnimation.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\..\..\..\image\1335091370.png" />
+    <Image Include="..\..\..\..\..\..\image\942031034.png" />
     <Image Include="..\..\..\..\..\..\image\ARRRR.png" />
     <Image Include="..\..\..\..\..\..\image\oak_woods_tileset.png" />
     <Image Include="..\..\..\..\..\..\image\p_wa_02_sh4.png" />
+    <Image Include="..\..\..\..\Downloads\3631805738.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BackgroundAnimation.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="TextureManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\..\..\..\..\..\image\Silver.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
